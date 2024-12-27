@@ -26,5 +26,12 @@ public class CheckData {
 
     private String resource;
 
-    private Boolean status;
+    /**
+     * 1：正常
+     * 2：多收
+     * 3：少收
+     * 4：金额多收
+     * 5：金额少收
+     */
+    private Integer status;
 }

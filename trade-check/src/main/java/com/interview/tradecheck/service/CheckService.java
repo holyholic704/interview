@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.file.FileReader;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.ZipUtil;
 import com.alibaba.excel.EasyExcel;
 import com.interview.tradecheck.bean.CheckData;
 import com.interview.tradecheck.bean.Params;
@@ -40,6 +41,20 @@ public class CheckService {
                 // 获取文件路径
                 String filePath = getFilePath(params, date);
 
+                // 只有中行，且使用较少，所以就没有使用参数化配置
+                // 中行的文件名特别处理，需要请求接口获取数据
+                if ("中行".equals(params.getPayment())) {
+                    // 请求接口
+                    // 保存 zip 文件
+                }
+
+                if (StrUtil.isNotEmpty(params.getZipPath())) {
+                    // 解压文件
+                    ZipUtil.unzip(params.getZipPath(), filePath);
+                }
+
+                filePath = filePath + "." + params.getFormat();
+
                 List<CheckData> checkDataList = new ArrayList<>();
 
                 // 读取文件
@@ -55,7 +70,6 @@ public class CheckService {
                     check(date, type, merchant, checkDataList);
                 }
             }
-
         }
     }
 
@@ -64,7 +78,7 @@ public class CheckService {
         List<String> list = fileReader.readLines();
         if (CollUtil.isNotEmpty(list)) {
             for (String line : list) {
-                ConvertService.convert(params, line);
+                checkDataList.add(ConvertService.convert(params, line));
             }
         }
     }
@@ -152,6 +166,6 @@ public class CheckService {
             path.append(s);
         }
 
-        return path + "." + params.getFormat();
+        return path.toString();
     }
 }

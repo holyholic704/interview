@@ -36,7 +36,7 @@ public class Params {
 
     private Integer systemCode;
 
-    private String unzipCode;
-
     private Integer head;
+
+    private String zipPath;
 }
