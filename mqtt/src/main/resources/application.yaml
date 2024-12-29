@@ -1,0 +1,7 @@
+server:
+  port: 8989
+mqtt:
+  host: tcp://127.0.0.1:1883
+  username: test
+  password: l12014671
+  clientId: jiage
